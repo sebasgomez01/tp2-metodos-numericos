@@ -2,7 +2,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include <pybind11/eigen.h>
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 
 using namespace std;
@@ -29,7 +29,7 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
     }
     eigenvalue = (v.transpose()).dot(A*v);
     eigenvalue = eigenvalue / ((v.transpose()).dot(v));
-    pair<float, VectorXd> result = make_pair(a, v);
+    pair<float, VectorXd> result = make_pair(eigenvalue, v);
     return result;
 }
 
