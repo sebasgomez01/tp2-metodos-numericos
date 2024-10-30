@@ -12,7 +12,7 @@ namespace py = pybind11;
 
 pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsilon = 1e-6) {
     int n = A.rows();
-    int a = 1;
+    float eigenvalue;
     VectorXd v(n);
     v.setRandom();
 
@@ -27,8 +27,8 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
             cout << "La cantidad de iteraciones fue:" << i << endl;
         }
     }
-    a = (v.transpose()).dot(A*v);
-    a = a / ((v.transpose()).dot(v));
+    eigenvalue = (v.transpose()).dot(A*v);
+    eigenvalue = eigenvalue / ((v.transpose()).dot(v));
     pair<float, VectorXd> result = make_pair(a, v);
     return result;
 }
