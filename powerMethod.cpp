@@ -31,43 +31,25 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
     pair<float, VectorXd> result = make_pair(a, v);
     return result;
 }
-/*
-pair<VectorXd, VectorXd> eigen(MatrixXd A, int num = 2, int niter = 10000, double epsilon = 1e-6) {
+
+pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, double epsilon = 1e-6) {
     MatrixXd A_copy = A;
     VectorXd eigenvalues(num);
     MatrixXd eigenvectors(A.rows(), num);
     
     for(int i = 0; i < niter; i++) {
         pair<float, VectorXd> eigens = powerIteration(A);
-        eigenvalues << eigens.first;
-        
+        eigenvalues(i) = eigens.first;
+        eigenvectors.col(i) = eigens.second;
+                    
+        A = A - ((eigenvalues(i) * eigenvectors.col(i)) * eigenvectors.col(i).transpose());
     }
+    pair<VectorXd, MatrixXd> result = make_pair(eigenvalues, eigenvectors);
+    return result;
 }
-*/
+
 int main() {
    
-    Eigen::Matrix3d matrizA;
-
-    
-    matrizA <<  1, 2, 3,
-                4, 5, 6,
-                7, 8, 9;
-    
-    pair<double, VectorXd> autovalor_y_autovector = powerIteration(matrizA);
-
-    cout << "Matriz A:\n" << matrizA << endl;
-    cout << "Autovalor dominante:\n" << autovalor_y_autovector.first << endl;
-    cout << "Autovector dominante:\n" << autovalor_y_autovector.second << endl;
-    
-    // utlizando las funciones de eigen calculo autovalores y autovectores para comparar:
-    Eigen::EigenSolver<Eigen::Matrix3d> solver(matrizA);
-
-    Eigen::Vector3cd eigenvalues = solver.eigenvalues();
-    std::cout << "Autovalores calculados por Eigen:\n" << eigenvalues << std::endl;
-
-    Eigen::Matrix3cd eigenvectors = solver.eigenvectors();
-    std::cout << "Autovectores calculados por Eigen:\n" << eigenvectors << std::endl;
-
     return 0;
 }
 
@@ -77,4 +59,8 @@ PYBIND11_MODULE(powerMethod, m) {
     m.def("powerIteration", &powerIteration, 
     py::arg("A"), py::arg("niter") = 10000, py::arg("epsilon") = 1e-6,
     "Funcion para calcular el autovalor y autovector dominantes con el metodo de la potencia");
+
+    m.def("eigen", &eigen, 
+    py::arg("A"), py::arg("num") = 2, py::arg("niter") = 10000, py::arg("epsilon") = 1e-6,
+    "Funcion que calcula los num autovalores y autovectores dominantes de A");
 }
