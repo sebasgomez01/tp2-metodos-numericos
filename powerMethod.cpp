@@ -22,12 +22,12 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
         v = A * v;
         v = v / v.norm();
         double norma_infinito = (v_anterior - v).lpNorm<Eigen::Infinity>();
-    /*
         if(norma_infinito < epsilon) {
-            break;
             cout << "La cantidad de iteraciones fue:" << i << endl;
+            break;
+            
         }
-    */
+
     }
     eigenvalue = (v.transpose()).dot(A*v);
     eigenvalue = eigenvalue / ((v.transpose()).dot(v));
