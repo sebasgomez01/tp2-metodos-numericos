@@ -37,7 +37,7 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
     VectorXd eigenvalues(num);
     MatrixXd eigenvectors(A.rows(), num);
     
-    for(int i = 0; i < niter; i++) {
+    for(int i = 0; i < num; i++) {
         pair<float, VectorXd> eigens = powerIteration(A);
         eigenvalues(i) = eigens.first;
         eigenvectors.col(i) = eigens.second;
