@@ -50,10 +50,6 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
 
 // declaro el módulo de pybind
 PYBIND11_MODULE(powerMethod, m) {
-    m.def("powerIteration", &powerIteration, 
-    py::arg("A"), py::arg("niter") = 10000, py::arg("epsilon") = 1e-6,
-    "Funcion para calcular el autovalor y autovector dominantes con el metodo de la potencia");
-
     m.def("eigen", &eigen, 
     py::arg("A"), py::arg("num") = 2, py::arg("niter") = 10000, py::arg("epsilon") = 1e-6,
     "Funcion que calcula los num autovalores y autovectores dominantes de A");
