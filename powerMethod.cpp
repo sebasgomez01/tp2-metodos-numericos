@@ -39,11 +39,11 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
     MatrixXd eigenvectors(A.rows(), num);
     
     for(int i = 0; i < num; i++) {
-        pair<float, VectorXd> eigens = powerIteration(A);
+        pair<float, VectorXd> eigens = powerIteration(A_copy, niter, epsilon);
         eigenvalues(i) = eigens.first;
         eigenvectors.col(i) = eigens.second;
                     
-        A = A - ((eigenvalues(i) * eigenvectors.col(i)) * eigenvectors.col(i).transpose());
+        A_copy -= ((eigenvalues(i) * eigenvectors.col(i)) * eigenvectors.col(i).transpose());
     }
     pair<VectorXd, MatrixXd> result = make_pair(eigenvalues, eigenvectors);
     return result;
