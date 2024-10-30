@@ -1,0 +1,17 @@
+CXX = c++
+
+PYBIND11_FLAGS := $(shell python3 -m pybind11 --includes)
+PYTHON_FLAGS := $(shell python3-config --cflags --ldflags)
+
+TARGET = powerMethod$(shell python3-config --extension-suffix)
+SOURCES = powerMethod.cpp
+
+CXXFLAGS = -O3 -Wall -shared -std=c++11 -fPIC -I /user/include/eigen3/Eigen $(PYBIND11_FLAGS) $(PYTHON_FLAGS)
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
+
+clean:
+	rm -f $(TARGET)
