@@ -48,12 +48,6 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
     return result;
 }
 
-int main() {
-   
-    return 0;
-}
-
-
 // declaro el módulo de pybind
 PYBIND11_MODULE(powerMethod, m) {
     m.def("powerIteration", &powerIteration, 
