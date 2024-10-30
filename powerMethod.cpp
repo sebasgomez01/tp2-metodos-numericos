@@ -27,7 +27,8 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
             cout << "La cantidad de iteraciones fue:" << i << endl;
         }
     }
-    a = v.dot(A*v);
+    a = (v.transpose()).dot(A*v);
+    a = a / ((v.transpose()).dot(v));
     pair<float, VectorXd> result = make_pair(a, v);
     return result;
 }
