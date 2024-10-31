@@ -3,6 +3,7 @@
 #include <pybind11/numpy.h>
 #include <pybind11/eigen.h>
 #include <eigen3/Eigen/Dense>
+#include <tuple>
 
 
 using namespace std;
@@ -10,14 +11,15 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 namespace py = pybind11;
 
-pair<double, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsilon = 1e-6) {
+tuple<double, VectorXd, int> powerIteration(MatrixXd A, int niter = 10000, double epsilon = 1e-6) {
     int n = A.rows();
     double eigenvalue;
     VectorXd v(n);
     v.setRandom();
-
+    int pasos = 0;
     VectorXd v_anterior = v;
     for(int i = 0; i < niter; i++) {
+        pasos++;
         v_anterior = v;
         v = A * v;
         v = v / v.norm();
@@ -31,7 +33,7 @@ pair<double, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsi
     }
     eigenvalue = (v.transpose()).dot(A*v);
     eigenvalue = eigenvalue / ((v.transpose()).dot(v));
-    pair<double, VectorXd> result = make_pair(eigenvalue, v);
+    tuple<double, VectorXd, int> result(eigenvalue, v, pasos);
     return result;
 }
 
@@ -41,9 +43,9 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
     MatrixXd eigenvectors(A.rows(), num);
     
     for(int i = 0; i < num; i++) {
-        pair<float, VectorXd> eigens = powerIteration(A_copy, niter, epsilon);
-        eigenvalues(i) = eigens.first;
-        eigenvectors.col(i) = eigens.second;
+        tuple<double, VectorXd, int> eigens = powerIteration(A_copy, niter, epsilon);
+        eigenvalues(i) = get<0>(eigens)
+        eigenvectors.col(i) = get<1>(eigens)
                     
         A_copy -= ((eigenvalues(i) * eigenvectors.col(i)) * eigenvectors.col(i).transpose());
     }
