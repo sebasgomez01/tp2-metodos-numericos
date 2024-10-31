@@ -44,8 +44,8 @@ pair<VectorXd, MatrixXd> eigen(MatrixXd A, int num = 2, int niter = 10000, doubl
     
     for(int i = 0; i < num; i++) {
         tuple<double, VectorXd, int> eigens = powerIteration(A_copy, niter, epsilon);
-        eigenvalues(i) = get<0>(eigens)
-        eigenvectors.col(i) = get<1>(eigens)
+        eigenvalues(i) = get<0>(eigens);
+        eigenvectors.col(i) = get<1>(eigens);
                     
         A_copy -= ((eigenvalues(i) * eigenvectors.col(i)) * eigenvectors.col(i).transpose());
     }
