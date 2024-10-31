@@ -10,9 +10,9 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 namespace py = pybind11;
 
-pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsilon = 1e-6) {
+pair<double, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsilon = 1e-6) {
     int n = A.rows();
-    float eigenvalue;
+    double eigenvalue;
     VectorXd v(n);
     v.setRandom();
 
@@ -31,7 +31,7 @@ pair<float, VectorXd> powerIteration(MatrixXd A, int niter = 10000, double epsil
     }
     eigenvalue = (v.transpose()).dot(A*v);
     eigenvalue = eigenvalue / ((v.transpose()).dot(v));
-    pair<float, VectorXd> result = make_pair(eigenvalue, v);
+    pair<double, VectorXd> result = make_pair(eigenvalue, v);
     return result;
 }
 
